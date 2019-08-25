@@ -6,7 +6,7 @@ function makeRelativeDyLib() {
     do
         echo $dependency
         $(cp ${dependency} ./lib)
-        install_name_tool -change ${dependency} @loader_path/lib/$(basename ${dependency}) ${dylib}
+        install_name_tool -change ${dependency} @executable_path/lib/$(basename ${dependency}) ${dylib}
     done
 }
 

@@ -7,6 +7,9 @@ import (
 	"gocv.io/x/gocv"
     "bytes"
     "time"
+    "path/filepath"
+    "os"
+    "path"
 )
 
 
@@ -19,6 +22,10 @@ func exec_shell(s string) (string, error){
 }
 
 func main() {
+    dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+	    fmt.Println(err)
+	}
     // set to use a video capture device 0
     deviceID := 0
 
@@ -44,8 +51,10 @@ func main() {
 	// load classifier to recognize faces
 	classifier := gocv.NewCascadeClassifier()
 	defer classifier.Close()
-
-	if !classifier.Load("/tmp/haarcascade_frontalface_default.xml") {
+    
+    filePath := path.Join(dir, "haarcascade_frontalface_default.xml")
+	fmt.Println(filePath)
+    if !classifier.Load(filePath) {
 		fmt.Println("Error reading cascade file: data/haarcascade_frontalface_default.xml")
 		return
 	}
